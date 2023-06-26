@@ -1,0 +1,32 @@
+[
+    {
+       
+        "sellerName": "showrab paul",
+        "sellerEmail": "supto50showrab@gmail.com",
+        "productName": "Dog swag 1",
+        "productPhoto": "https://i.ibb.co/vVSKtR0/product3.jpg",
+        "price": 60,
+        "discount": 0,
+        "needPrice": 60
+    },
+    {
+       
+        "sellerName": "showrab paul",
+        "sellerEmail": "supto50showrab@gmail.com",
+        "productName": "swag product 2",
+        "productPhoto": "https://i.ibb.co/xs6ZMLC/product2.jpg",
+        "price": 50,
+        "discount": 0,
+        "needPrice": 50
+    },
+    {
+       
+        "sellerName": "showrab paul",
+        "sellerEmail": "supto50showrab@gmail.com",
+        "productName": "Dog swag 3",
+        "productPhoto": "https://i.ibb.co/10J8ZZ8/product1.jpg",
+        "price": 100,
+        "discount": 0,
+        "needPrice": 30
+    }
+]

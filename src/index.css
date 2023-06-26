@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.authentication-card{
+    @apply card flex-shrink-0 max-w-sm glass  outline outline-offset-2 outline-rose-600  bg-base-100
+}
