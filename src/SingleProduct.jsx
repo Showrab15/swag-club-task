@@ -1,67 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const SingleProduct = ({ product, setUpdated, updated, discountStart, setDiscountStart }) => {
-
-  const [countdown, setCountdown] = useState(60*60); // 60 minutes in seconds
-
-  useEffect(() => {
-    if (discountStart) {
-      fetch(`http://localhost:5000/products/${product._id}`, {
-        method: "PUT",
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          price: product.price,
-          discount: 30
-        })
-      }
-      )
-        .then(res => res.json())
-        .then(data => {
-          console.log()
-          if (data.modifiedCount > 0) {
-            setDiscountStart(true)
-            setUpdated(!updated)
-          }
-        })
-    }
-  }, [discountStart])
+const SingleProduct = ({ product, discountStart, setDiscountStart }) => {
+  const discountTimeSec = JSON.parse(localStorage.getItem('DiscountTimeSec')) || 60 * 60;
+  const [countdown, setCountdown] = useState(discountTimeSec);
+  const [isDiscountStarted, setIsDiscountStarted] = useState(false)
+  const [discountedPrice, setDiscountedPrice] = useState(0)
 
   useEffect(() => {
-    if (discountStart) {
+    const isDiscount = JSON.parse(localStorage.getItem('Discount'))
+    setIsDiscountStarted(isDiscount)
+    if (isDiscount) {
+      const discountAmount = product.price * (30 / 100)
+      setDiscountedPrice(product.price - discountAmount)
       const intervalId = setInterval(() => {
-        setCountdown(prevCountdown => prevCountdown - 1);
+        setCountdown(prevCountdown => {
+          const newCountdown = prevCountdown - 1;
+          localStorage.setItem('DiscountTimeSec', JSON.stringify(newCountdown));
+          return newCountdown;
+        });
         if (countdown <= 0) {
+          localStorage.setItem('Discount', false);
+          setDiscountStart(false);
           clearInterval(intervalId);
-          fetch(`http://localhost:5000/products/${product._id}`, {
-            method: "PUT",
-            headers: {
-              'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-              price: product.price,
-              discount: 0
-            })
-          }
-          )
-            .then(res => res.json())
-            .then(data => {
-              console.log(data)
-              if (data.modifiedCount > 0) {
-                setDiscountStart(false)
-                setUpdated(!updated)
-              }
-            })
-
-
-
-
         }
       }, 1000);
-
     }
-  }, [updated, discountStart])
+  }, [discountStart])
 
 
   // Format the countdown time to display in mm:ss format
@@ -75,24 +40,28 @@ const SingleProduct = ({ product, setUpdated, updated, discountStart, setDiscoun
   return (
     <div>
       <div className="card h-full glass bg-red-100 shadow-xl">
-        <figure><img src={product.productPhoto} alt="Shoes" /></figure>
+        <figure><img className='h-full w-full' src={product.productPhoto} alt="Shoes" /></figure>
         <div className="card-body">
-          <div className=" gap-4">
-            <button className="btn text-center my-auto">
-              Exclusive Offer
-              <div className="badge badge-secondary">+{product.discount}</div>
-            </button>
-            <button className="btn btn-lg btn-outline text-xs flex items-center my-auto px-4">30% discount for every correct answer</button>
-          </div>
-          {discountStart && <div className="text-center mt-8">
+          {
+            (discountedPrice > 0) && <div className=" gap-4">
+              <button className="btn text-center my-auto">
+                Exclusive Offer
+                <div className="badge badge-secondary">+{30}</div>
+              </button>
+              <button className="btn btn-lg btn-outline text-xs flex items-center my-auto px-4">30% discount for every correct answer</button>
+            </div>
+          }
+          {isDiscountStarted && <div className="text-center mt-8">
             <h3> {formatCountdown()}</h3>
           </div>}
-          <p className="text-semibold text-secondary">Price: ${product.discount > 0 ? <span classNam="text-secondary">{product.discountedPrice}  <del className="block">{product.price}</del> </span> : product.price}</p>
+          <p className="text-semibold text-secondary">Price: {discountedPrice > 0 ? <span className="text-secondary">{discountedPrice}  <del className="block">{product.price}</del> </span> : <span>{product.price}</span>}</p>
           <div className="card-actions justify-end">
-            <button className="btn btn-secondary mx-auto">Buy</button>
+         <Link  className="btn btn-secondary mx-auto" to={product.affilate}>Buy</Link> 
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+export default SingleProduct

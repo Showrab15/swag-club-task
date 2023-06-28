@@ -1,11 +1,13 @@
+
+
+
 import React, { useState } from 'react';
 import classnames from 'classnames';
-import logo from '../src/assets/logo.png'
-const Quiz = ({setDiscountStart, discountStart}) => {
+import logo from '../src/assets/0f252ee7-46c0-4859-a7c9-c91d21f3a7cb._CR0,0,500,500_SX500_.jpeg.jpg'
+const Quiz = ({ setDiscountStart, discountStart }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const correctAnswer = 'd';
-
   const handleOptionSelect = (option) => {
     if (!isSubmitted) {
       setSelectedOption(option);
@@ -14,8 +16,9 @@ const Quiz = ({setDiscountStart, discountStart}) => {
 
   const handleSubmit = () => {
     setIsSubmitted(true);
-    if(selectedOption == correctAnswer){
+    if (selectedOption == correctAnswer) {
       setDiscountStart(true)
+      localStorage.setItem('Discount', true)
     }
   };
 
@@ -51,39 +54,34 @@ const Quiz = ({setDiscountStart, discountStart}) => {
 
   return (
     <div className="flex justify-between">
-<div className="mt-44  flex items-center">
-      <button className="btn ">
-  <img src={logo} alt=""  className="h-6 w-12 rounded"/>
-  <span className="text-xs text-left text-secondary">This quiz is Sponsored <br />  by  Minsa Enterprise <br /> "Leaders in Dog Toys"</span>
-</button>
+      <div className="mt-30 mr-auto  flex items-center">
+        <button className="btn ">
+          <img src={logo} alt="" className="h-6 w-12 rounded" />
+          <span className="text-xs text-left text-secondary">This quiz is sponsored by Pet Max</span>
+        </button>
       </div>
-      <div className="container bg-glass bg-red-50 bg-blend-overlay p-8 rounded shadow-lg bg-opacity-5  h-60 my-auto">
-      
-   
-      
-
-      <p className="mb-4 text-white font-semibold">What is a German Shepherd?</p>
-      <div className="flex flex-col">{renderOptions()}</div>
-      <div className="flex mt-4 justify-center">
-        {isSubmitted ? (
-          <button
-            className="btn btn-sm btn-primary hover:bg-red-500 text-white py-2 px-4 rounded "
-            disabled={isSubmitted}
-          >
-            Submitted
-          </button>
-        ) : (
-          <button
-            className="btn btn-sm btn-primary text-white py-2 px-4 rounded hover:bg-blue-700"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
-        )}
+      <div className="container bg-glass bg-red-50 bg-blend-overlay p-8 rounded shadow-lg bg-opacity-5 mb-40 my-auto">
+        <p className="mb-4 text-white font-semibold">What is a German Shepherd?</p>
+        <div className="flex flex-col">{renderOptions()}</div>
+        <div className="flex mt-4 justify-center">
+          {isSubmitted ? (
+            <button
+              className="btn btn-sm btn-primary hover:bg-red-500 text-white py-2 px-4 rounded "
+              disabled={isSubmitted}
+            >
+              Submitted
+            </button>
+          ) : (
+            <button
+              className="btn btn-sm btn-primary md:ml-0 ml-12 text-white py-2 px-4 rounded hover:bg-blue-700"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          )}
+        </div>
       </div>
     </div>
-    </div>
-  
   );
 };
 

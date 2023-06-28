@@ -14,12 +14,14 @@ const AddVideo = () => {
         const publisherName = form.publisherName.value;
         const publisherEmail = user?.email;
         const videoName = form.videoName.value;
+        const videoDescription = form.videoDescription.value;
         const videoURL = form.videoURL.value;
         const addedvideos = {
             publisherName: publisherName,
             publisherEmail: publisherEmail,
             videoName: videoName,
             videoUrl: videoURL,
+            videoDescription:videoDescription
         }
         console.log(addedvideos)
         fetch('https://swag-club-second-task-server.vercel.app/videos',
@@ -73,6 +75,11 @@ const AddVideo = () => {
                             </label>
                             <input type="text" name='videoName' required placeholder="video Name" className="input input-bordered" />
                         </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Video Description</span>
+                            </label>
+                            <textarea name="videoDescription" className="textarea textarea-info" placeholder="type video description here....."></textarea>                        </div>
 
                         <div className="form-control ">
                             <label className="label">
